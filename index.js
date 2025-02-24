@@ -37,6 +37,25 @@ const commands = [
         .setDescription('The aircraft to remove')
         .setRequired(true)
     ),
+  new SlashCommandBuilder()
+    .setName('route_register')
+    .setDescription('Registers routes onto the SkyLuxe Database!')
+    .addStringOption(option => 
+      option.setName('route')
+        .setDescription('The route to register')
+        .setRequired(true)
+    ),
+  new SlashCommandBuilder()
+    .setName('view_routes')
+    .setDescription('View the registered routes in the SkyLuxe Database!'),
+  new SlashCommandBuilder()
+    .setName('route_remove')
+    .setDescription('Remove a route from the SkyLuxe Database!')
+    .addStringOption(option => 
+      option.setName('route')
+        .setDescription('The route to remove')
+        .setRequired(true)
+    ),
 ].map(command => command.toJSON());
 
 // Register slash commands
@@ -72,8 +91,9 @@ client.once('ready', () => {
   console.log('Bot status has been set!');
 });
 
-// Mock database for aircrafts
+// Mock database for aircrafts and routes
 let aircrafts = ['Boeing 747', 'Airbus A320', 'Cessna 172'];
+let routes = ['Route 1', 'Route 2', 'Route 3'];
 
 // Listen for slash commands
 client.on('interactionCreate', async (interaction) => {
@@ -132,6 +152,61 @@ client.on('interactionCreate', async (interaction) => {
     aircrafts = aircrafts.filter(aircraft => aircraft !== aircraftToRemove);
 
     await interaction.reply({ content: `Aircraft ${aircraftToRemove} has been removed from the database.`, ephemeral: true });
+  }
+
+  if (interaction.commandName === 'route_register') {
+    const routeToAdd = interaction.options.getString('route');
+
+    if (routes.includes(routeToAdd)) {
+      await interaction.reply({ content: `Route ${routeToAdd} is already registered in the database.`, ephemeral: true });
+      return;
+    }
+
+    routes.push(routeToAdd);
+
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: "SkyLuxe Staff", // The name next to the logo
+        iconURL: "https://cdn.discordapp.com/emojis/1322230317742034985.webp?size=96"
+      })
+      .setColor('#0F52BA')
+      .setTitle('Routes')
+      .setDescription('SkyLuxe Routes')
+      .addFields(routes.map(route => ({ name: route, value: '\u200B' })));
+
+    await interaction.reply({ content: `Route ${routeToAdd} has been registered in the database.`, embeds: [embed] });
+  }
+
+  if (interaction.commandName === 'view_routes') {
+    const loadingEmbed = new EmbedBuilder()
+      .setDescription('... Loading');
+
+    await interaction.reply({ embeds: [loadingEmbed] });
+
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: "SkyLuxe Staff", // The name next to the logo
+        iconURL: "https://cdn.discordapp.com/emojis/1322230317742034985.webp?size=96"
+      })
+      .setColor('#0F52BA')
+      .setTitle('Routes')
+      .setDescription('SkyLuxe Routes')
+      .addFields(routes.map(route => ({ name: route, value: '\u200B' })));
+
+    await interaction.editReply({ embeds: [embed] });
+  }
+
+  if (interaction.commandName === 'route_remove') {
+    const routeToRemove = interaction.options.getString('route');
+
+    if (!routes.includes(routeToRemove)) {
+      await interaction.reply({ content: `Route ${routeToRemove} not found in the database.`, ephemeral: true });
+      return;
+    }
+
+    routes = routes.filter(route => route !== routeToRemove);
+
+    await interaction.reply({ content: `Route ${routeToRemove} has been removed from the database.`, ephemeral: true });
   }
 });
 
