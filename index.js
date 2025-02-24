@@ -94,3 +94,56 @@ client.on('interactionCreate', async (interaction) => {
         name: "SkyLuxe Staff", // The name next to the logo
         iconURL: "https://cdn.discordapp.com/emojis/1322230317742034985.webp?size=96"
       })
+      .setColor('#0F52BA')
+      .setTitle('Aircrafts')
+      .setDescription('SkyLuxe Fleet')
+      .addFields(aircrafts.map(aircraft => ({ name: aircraft, value: '\u200B' })));
+
+    await interaction.reply({ content: `Aircraft ${aircraftToAdd} has been registered in the database.`, embeds: [embed] });
+  }
+
+  if (interaction.commandName === 'view_aircrafts') {
+    const loadingEmbed = new EmbedBuilder()
+      .setDescription('... Loading');
+
+    await interaction.reply({ embeds: [loadingEmbed] });
+
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: "SkyLuxe Staff", // The name next to the logo
+        iconURL: "https://cdn.discordapp.com/emojis/1322230317742034985.webp?size=96"
+      })
+      .setColor('#0F52BA')
+      .setTitle('Aircrafts')
+      .setDescription('SkyLuxe Fleet')
+      .addFields(aircrafts.map(aircraft => ({ name: aircraft, value: '\u200B' })));
+
+    await interaction.editReply({ embeds: [embed] });
+  }
+
+  if (interaction.commandName === 'aircraft_remove') {
+    const aircraftToRemove = interaction.options.getString('aircraft');
+
+    if (!aircrafts.includes(aircraftToRemove)) {
+      await interaction.reply({ content: `Aircraft ${aircraftToRemove} not found in the database.`, ephemeral: true });
+      return;
+    }
+
+    aircrafts = aircrafts.filter(aircraft => aircraft !== aircraftToRemove);
+
+    await interaction.reply({ content: `Aircraft ${aircraftToRemove} has been removed from the database.`, ephemeral: true });
+  }
+});
+
+// Log in to Discord using the bot token
+client.login(TOKEN);
+
+// Keep the bot online with a basic HTTP server
+http
+  .createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Bot is running!\n');
+  })
+  .listen(8080);
+
+console.log('Ping server is running!');
