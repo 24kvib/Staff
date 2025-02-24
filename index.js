@@ -84,9 +84,9 @@ client.once('ready', () => {
   // Set custom status for the bot
   client.user.setPresence({
     activities: [
-      { name: 'Development', type: 3 }, // 3 = Watching
+      { name: 'Over Staff', type: 3 }, // 3 = Watching
     ],
-    status: 'dnd', // online, idle, dnd, invisible
+    status: 'online', // online, idle, dnd, invisible
   });
   console.log('Bot status has been set!');
 });
