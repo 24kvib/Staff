@@ -4,7 +4,7 @@ import http from 'http';
 // Replace with your actual bot token and client ID
 const TOKEN = process.env.TOKEN;
 const CLIENT_ID = '1341718505606610964'; // Replace with your bot's client ID
-const GUILD_ID = '1222570193096671343'; // Replace with your server (guild) ID
+const GUILD_ID = '1242507947737878639'; // Replace with your server (guild) ID
 
 // Create a new client instance
 const client = new Client({
