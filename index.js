@@ -2,7 +2,7 @@ import { Client, GatewayIntentBits, REST, Routes, SlashCommandBuilder, EmbedBuil
 import http from 'http';
 
 // Replace with your actual bot token and client ID
-const TOKEN = 'MTM0MTcxODUwNTYwNjYxMDk2NA.Gd0Q1s.X-DTRc6r99P1mR_T-78H42gJkaZCHgiy9uMVmo'; // Replace with your bot token
+const TOKEN = process.env.DISCORD_TOKEN;
 const CLIENT_ID = '1341718505606610964'; // Replace with your bot's client ID
 const GUILD_ID = '1222570193096671343'; // Replace with your server (guild) ID
 
