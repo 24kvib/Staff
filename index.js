@@ -20,7 +20,10 @@ const client = new Client({
 const commands = [
   new SlashCommandBuilder()
     .setName('aircraft_register')
-    .setDescription('Registers aircrafts onto the SkyLuxe Database!'),
+    .setDescription('Registers aircrafts onto the SkyLuxe Database!')
+    .addStringOption(option =>
+      .setDescription('The aircarft to add')
+      .setRequired(true),
   new SlashCommandBuilder()
     .setName('view_aircrafts')
     .setDescription('View the registered aircrafts in the SkyLuxe Database!'),
