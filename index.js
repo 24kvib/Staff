@@ -92,8 +92,8 @@ client.once('ready', () => {
 });
 
 // Mock database for aircrafts and routes
-let aircrafts = ['Boeing 747', 'Airbus A320', 'Cessna 172'];
-let routes = ['Route 1', 'Route 2', 'Route 3'];
+let aircrafts = ['SL Boeing 737 MAX8', 'AL Boeing 737 MAX8'];
+let routes = ['MTP - LAX', 'MTP - SAN', 'Route 3'];
 
 // Listen for slash commands
 client.on('interactionCreate', async (interaction) => {
